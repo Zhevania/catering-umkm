@@ -1,15 +1,12 @@
 pipeline {
   agent any
-  triggers { pollSCM('* * * * *') }   // cek GitHub tiap menit -> otomatis jalan setelah push
+  triggers { pollSCM('* * * * *') }
   environment {
     DB_HOST = 'localhost'
-    DB_USER = 'root'
-    DB_PASS = ''
+    DB_USER = 'catering'
+    DB_PASS = 'ISI_PASSWORD_MYSQL_KAMU'
   }
   stages {
-    stage('Checkout') {
-      steps { git branch: 'main', url: 'https://github.com/USERNAME/catering-umkm.git' }
-    }
     stage('Install') {
       steps { sh 'python3 -m venv venv && . venv/bin/activate && pip install -r requirements.txt' }
     }
@@ -27,7 +24,7 @@ pipeline {
     }
   }
   post {
-    success { echo 'Build & deploy berhasil ✅' }
-    failure { echo 'Build gagal ❌ - cek Console Output' }
+    success { echo 'Build & deploy berhasil' }
+    failure { echo 'Build gagal, cek Console Output' }
   }
 }
